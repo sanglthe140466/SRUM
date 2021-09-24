@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/main :: layout ('Form solution', ~{::section}, 'issue', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/css/issues.css}">
+    <link rel="stylesheet" th:href="@{/css/view-class-list.css}">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 th:utext="'Solution for issue: ' +${issue.content}"></h2>
+                <br>
+                <form id="add-solution" method="post" th:action="@{/solution/save}" th:object="${solution}">
+                    <div class="d-flex flex-row">
+                        <input type="hidden" name="id" th:value="${solution.id}">
+                        <input type="hidden" name="issue" th:value="${issue.id}">
+                        <input type="text" name="content" id="content" class="col-sm-6"
+                               placeholder="Input solution" th:field="*{content}">
+                        <error th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></error>
+                        <button type="submit" class="btn btn-outline-primary" id="btn-add"
+                                th:text="${solution.id == null} ? 'Add solution' : 'Update solution'"></button>
+                    </div>
+                </form>
+                </br>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+<div class="view-mistake">
+    <div class="table-responsive">
+        <table class="table text-center text-dark table-hover" id="view-mistake">
+            <thead>
+            <tr>
+                <th>NO</th>
+                <th>NAME</th>
+                <th>CONTENT</th>
+                <th>NOTE</th>
+                <th width="20%">ACTION</th>
+            </tr>
+            </thead>
+            <tbody class="fw-bold text-black">
+            <tr th:each="mistake,state : ${#lists.sort(#lists.toList(trainee.mistakes), mistakeNameComparator)}">
+                <td th:text="${state.count}"></td>
+                <td th:text="${mistake.name}"></td>
+                <td th:text="${mistake.content}"></td>
+                <td th:text="${mistake.note}"></td>
+                <td>
+                    <button class="btn btn-outline-success update-mistake" th:attr="data-id=${mistake.id}" sec:authorize="${hasAuthority(T(com.srum.util.Roles).CLASS_ADMIN)}">
+                        Update
+                    </button>
+                    <button class="btn btn-outline-danger delete-Mistake" th:attr="data-id=${mistake.id}" sec:authorize="${hasAuthority(T(com.srum.util.Roles).CLASS_ADMIN)}">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script th:src="@{/js/trainee-detail.js}"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/main :: layout ('Issue Management', ~{::section}, 'issue', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/assets/vendors/simple-datatables/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/toastify/toastify.css}">
+    <link rel="stylesheet" th:href="@{/css/list-issues.css}">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3 id="classId" th:attr="data-id=${clazz.id}" th:utext="'Class: '+${clazz.name}"></h3>
+                            </div>
+                        </div>
+                        <form id="form-add-issue" method="post" th:action="@{/class/{id}/issues(id=${clazz.id})}">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Issue content..." name="content"
+                                       minlength="20"
+                                       required>
+                                <button class="btn btn-primary" type="submit">Add issues</button>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-lg" id="table1">
+                            <thead>
+                            <tr>
+                                <th>List issues</th>
+                            </tr>
+                            </thead>
+                            <tbody id="list-issues">
+                            <tr th:each="issue : ${#lists.sort(#lists.toList(clazz.issues), issueDateComparator)}">
+                                <td>
+                                    <div class="collapsed collapse-title row fw-bold text-black">
+                                        <div class="issue-content col-8"
+                                             data-bs-toggle="collapse"
+                                             th:attr="data-bs-target='#collapse' + ${issue.id}"
+                                             aria-expanded="true"
+                                             aria-controls="collapseOne"
+                                             role="button">
+                                                <span class="badge bg-light-primary"
+                                                      th:utext="${#dates.format(issue.date, 'd-M-yyyy')}"></span>
+                                            <span th:id="'heading' + ${issue.id}" th:utext="${issue.content}"></span>
+                                        </div>
+                                        <div class="col d-flex align-items-start justify-content-end">
+                                            <button class="btn btn-sm btn-primary edit-issue"
+                                                    th:attr="data-id=${issue.id}"><i class="fa fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div th:id="'collapse' + ${issue.id}" class="pt-1 collapse">
+                                        <hr>
+                                        <strong>Solution:
+                                            <button class="btn btn-sm btn-outline-primary create-solution"
+                                                    th:attr="data-id=${issue.id}"><i
+                                                    class="fa fa-plus"></i></button>
+                                        </strong>
+                                        <div th:id="'solution-list' + ${issue.id}">
+                                            <div class="alert alert-secondary row"
+                                                 th:each="solution : ${#lists.sort(#lists.toList(issue.solutions), solutionDateComparator)}">
+                                                <div class="col-10">
+                                                    <span class="badge bg-primary"
+                                                          th:utext="${#dates.format(solution.date, 'd-M-yyyy')}"></span>
+                                                    <span th:id="'solution-content-' + ${solution.id}"
+                                                          th:utext="${solution.content}"></span>
+                                                </div>
+                                                <div class="col-2">
+                                                    <button class="btn btn-sm btn-primary edit-solution"
+                                                            th:attr="data-id=${solution.id}"><i
+                                                            class="fa fa-edit"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade text-left" id="modalIssue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalIssueTitle"></h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div id="modalIssueContent">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script th:src="@{/assets/vendors/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendors/sweetalert2/sweetalert2.all.min.js}"></script>
+<script th:src="@{/assets/vendors/toastify/toastify.js}"></script>
+<script th:src="@{/js/list-issues.js}"></script>
+</body>
+</html>

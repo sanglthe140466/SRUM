@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+</head>
+<body>
+<form id="form-mistake-add" th:action="@{/trainee/{traineeId}/mistake(traineeId=${traineeId})}" th:fragment="addMistake"
+      th:method="POST">
+    <div id="form-mistake-error"></div>
+    <input type="hidden" name="id" th:value="${Mistake} ? ${Mistake.id}">
+    <div class="form-group">
+        <label for="name">Name: </label>
+        <input th:value="${Mistake} ? ${Mistake.name} : '' " type="text" placeholder="Mistake name..." name="name"
+               id="name" required
+               class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="content">Content: </label>
+        <input th:value="${Mistake} ? ${Mistake.content} : ''" type="text" placeholder="Mistake content..."
+               name="content" id="content" required minlength="10"
+               class="form-control"></input>
+    </div>
+    <div class="form-group">
+        <label for="note">Note: </label>
+        <input th:value="${Mistake} ? ${Mistake.note} : ''" type="text" placeholder="Mistake note..." name="note"
+               id="note"
+               class="form-control">
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+            <span class="d-none d-sm-block">Close</span>
+        </button>
+        <button type="submit" class="btn btn-primary ml-1">
+            <span class="d-none d-sm-block">Save</span>
+        </button>
+    </div>
+</form>
+</body>
+</html>

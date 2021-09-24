@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+</head>
+<body>
+<div class="interview-result">
+    <div class="table-responsive">
+        <table class="table text-center  text-dark table-hover" id="class-table">
+            <thead>
+            <tr>
+                <th>NO</th>
+                <th>SKILL</th>
+                <th>LEVEL</th>
+            </tr>
+            </thead>
+            <tbody class="fw-bold text-black">
+            <tr th:each="is,state : ${interviewResult}">
+                <td th:text="${state.count}"></td>
+                <td><span th:text="${is.skill}" class="badge bg-primary"></span></td>
+                <td th:text="${is.currentLevel} + '/' + ${is.maxLevel}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

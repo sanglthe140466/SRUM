@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="layout/main :: layout ('Trainee Management', ~{::section}, 'trainee', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/assets/vendors/toastify/toastify.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/view-comment.css}">
+    <link rel="stylesheet" th:href="@{/css/view-mistake.css}">
+</head>
+<body>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="bg-d9edf6 rounded-3 text-center">
+                            <div class="p-3"><img th:src="@{/assets/images/faces/1.jpg}" class="rounded-circle" width="130"
+                                                  height="130"></div>
+                            <div class="text-primary fw-bold" th:text="${trainee.name}" th:attr="data-id=${trainee.id}"
+                                 id="traineeId"></div>
+                            <div class="text-primary fw-bold mt-2" th:text="${trainee.phone}"></div>
+                            <div class="text-primary fw-bold mt-2 pb-3" th:text="${trainee.email}"></div>
+                            <div class="text-primary fw-bold mb-3"><a th:text="'CLASS : '+${trainee.clazz.name}" th:href="@{/class/{id}(id=${trainee.clazz.id})}"></a></div>
+                            <div class="text-parimary" sec:authorize="${hasAuthority(T(com.srum.util.Roles).CLASS_ADMIN)}">
+                                <a class="btn btn-sm btn-primary" th:href="@{/trainee/update/{traineeID}(traineeID=${trainee.id})}"><i class="fa fa-edit"></i>
+                                    Edit
+                                </a>
+                                <button class="btn btn-sm btn-warning" id="add_mistake"><i class="fa fa-plus"></i>
+                                    Mistake
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-d9edf6 rounded-3 text-center pt-t pb-5">
+                            <h2 class="text-warning pt-5 fw-bold">
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </h2>
+                            <h1 class="text-danger">A+</h1>
+                            <div class="progress w-75 mx-auto bg-light p-1 h-25 rounded-3">
+                                <div class="progress-bar rounded-3 progress-bar-striped bg-warning text-black"
+                                     role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                     th:style="'width:'+(${avgScore} ? ${avgScore} : '0') + '%'"
+                                     th:text="'Final Grade: ' +(${avgScore} ? ${#numbers.formatDecimal(avgScore,2,'POINT',2,'COMMA')} + '%' : 'N/A')">
+                                </div>
+                            </div>
+                            <div class="progress w-75 mx-auto bg-light p-1 mt-3 h-25 rounded-3">
+                                <div class="progress-bar rounded-3 progress-bar-striped bg-success text-warning"
+                                     role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                     th:style="'width:'+ (${totalAttendance != 0} ? ${typePresent * 100/totalAttendance} : '0')  + '%'"
+                                     th:text="'Attendance: ' + ${typePresent} + '/' + ${totalAttendance}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#home" role="tab"
+                                           aria-selected="true" id="comments"
+                                           th:text="Comments"></a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" data-bs-toggle="tab" id="score" href="#profile" role="tab"
+                                           aria-selected="false">Score</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="attendance" data-bs-toggle="tab" href="#contact"
+                                           role="tab" aria-selected="false">Attendance</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="interview-result" data-bs-toggle="tab" href="#"
+                                           role="tab" aria-selected="false">Interview Result</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="mistakes" data-bs-toggle="tab" href="#" role="tab"
+                                           aria-selected="false">Mistakes</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <!-- Data -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mistake Modal -->
+    <div class="modal fade text-left" id="modalMistake" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalMistakeTile"></h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div id="modalMistakeContent" class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+<script th:src="@{/assets/vendors/sweetalert2/sweetalert2.all.min.js}"></script>
+<script th:src="@{/assets/vendors/toastify/toastify.js}"></script>
+<script th:src="@{/js/trainee-detail.js}"></script>
+</body>
+</html>

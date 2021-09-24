@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+</head>
+<body>
+<div class="active" id="sidebar" th:fragment="sidebar (activeSidebar)">
+    <div class="sidebar-wrapper active">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between">
+                <div class="logo">
+                    <a th:href="@{/}">SRUM</a>
+                </div>
+                <div class="toggler">
+                    <a class="sidebar-hide d-xl-none d-block" href="#"><i class="bi bi-x bi-middle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu">
+                <li class="sidebar-item " th:classappend="${activeSidebar} == 'dashboard' ? 'active' : ''" sec:authorize="${hasAuthority(T(com.srum.util.Roles).CLASS_ADMIN)}">
+                    <a class='sidebar-link' th:href="@{/}">
+                        <i aria-hidden="true" class="fa fa-pie-chart"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item " th:classappend="${activeSidebar} == 'class' ? 'active' : ''" sec:authorize="${hasAuthority(T(com.srum.util.Roles).CLASS_ADMIN)}">
+                    <a class='sidebar-link' th:href="@{/class}">
+                        <i class="bi bi-stack"></i>
+                        <span>Class management</span>
+                    </a>
+                </li>
+                <li class="sidebar-item " th:classappend="${activeSidebar} == 'trainee' ? 'active' : ''" sec:authorize="${hasAuthority(T(com.srum.util.Roles).CLASS_ADMIN)}">
+                    <a class='sidebar-link' th:href="@{/trainee}">
+                        <i aria-hidden="true" class="fa fa-graduation-cap"></i>
+                        <span>Trainee management</span>
+                    </a>
+                </li>
+                <li class="sidebar-item " th:classappend="${activeSidebar} == 'subject' ? 'active' : ''" sec:authorize="${hasAuthority(T(com.srum.util.Roles).CLASS_ADMIN)}">
+                    <a class='sidebar-link' th:href="@{/subjects-list}">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Subjects</span>
+                    </a>
+                </li>
+                <li class="sidebar-item " th:classappend="${activeSidebar} == 'feedback' ? 'active' : ''" sec:authorize="${hasAuthority(T(com.srum.util.Roles).CLASS_ADMIN)}">
+                    <a class='sidebar-link' th:href="@{/feedback}">
+                        <i class="fas fa-comments"></i>
+                        <span>Feedback Management</span>
+                    </a>
+                </li>
+                <li class="sidebar-item " th:classappend="${activeSidebar} == 'trainee' ? 'active' : ''" sec:authorize="${hasAuthority(T(com.srum.util.Roles).TRAINEE)}">
+                    <a class='sidebar-link' th:href="@{/trainee/{id}(id=${#authentication.getPrincipal().Id})}">
+                        <i aria-hidden="true" class="fa fa-graduation-cap"></i>
+                        <span>Trainee Information</span>
+                    </a>
+                </li>
+                <li class="sidebar-item " th:classappend="${activeSidebar} == 'feedback' ? 'active' : ''" sec:authorize="${hasAuthority(T(com.srum.util.Roles).TRAINEE)}">
+                    <a class='sidebar-link' th:href="@{/feedback/trainee}">
+                        <i class="fas fa-comments"></i>
+                        <span>Feedback Information</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+    </div>
+</div>
+</body>
+</html>

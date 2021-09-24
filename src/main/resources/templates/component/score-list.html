@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="table-responsive">
+    <table class="table text-center text-dark table-hover" id="scoreList">
+        <thead>
+        <tr>
+            <th>NO</th>
+            <th>SCORE NAME</th>
+            <th>POINT</th>
+        </tr>
+        </thead>
+        <tbody class="fw-bold text-black">
+        <tr th:each="score, state : ${scores}">
+            <td th:text="${state.count}"></td>
+            <td th:text="${score.name}"></td>
+            <td>
+                <div class="progress">
+                    <div th:text="${score.value} ? ${#numbers.formatDecimal(score.value,1,'POINT',1,'COMMA')}"
+                         class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                         th:style="'width:'+(${score.value} ? ${score.value * 10} : '0') + '%'"></div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
