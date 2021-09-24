@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/main :: layout ('Class Management', ~{::section}, 'class', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+    <title>Class Detail</title>
+    <link rel="stylesheet" th:href="@{/css/jquery.paginate.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/toastify/toastify.css}">
+</head>
+<body>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="page-content">
+                <section class="row">
+                    <!-- Class Information -->
+                    <div class="col-md-6 bg-white ms-4 mb-4 mt-3 border rounded p-4">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="d-inline" th:text="${class.name}"></h5>
+                            <a th:href="@{/class/update/{id}(id=${class.id})}" class="btn btn-outline-primary">Edit</a>
+                        </div>
+                        <table class="font-italic">
+                            <tr>
+                                <td>Plan: <span
+                                        th:text="${class.planCount} ? ${class.planCount} +' students' : '0' + ' students'"
+                                        class="text-primary me-5"></span></td>
+                                <td>Actual: <span th:text="${#lists.size(class.trainees)} +' students'"
+                                                  class="text-primary"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Start: <span th:text="${#dates.format(class.openDate, 'dd-MM-yyyy')}"
+                                                 class="text-primary"></span></td>
+                                <td>End Date: <span th:text="${#dates.format(class.endDate, 'dd-MM-yyyy')}"
+                                                    class="text-primary"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Group name:
+                                    <span class="text-primary" th:text="${class.type}"></span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" th:href="@{'/class/' + ${class.id} + '/issues'}">
+                                        Issue
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="w-100 border-top mt-4">
+                            <table class="text-center w-100 mt-4">
+                                <tr>
+                                    <td class="w-25 text-primary fw-bolder fs-4 border-success">
+                                        <div th:text="${#lists.size(class.trainees)}"></div>
+                                        <div>Total</div>
+                                    </td>
+                                    <td class="w-25 text-danger fw-bolder fs-4">
+                                        <div>0</div>
+                                        <div>Failed</div>
+                                    </td>
+                                    <td class="w-25 text-success fw-bolder fs-4">
+                                        <div>0</div>
+                                        <div>Passed</div>
+                                    </td>
+                                    <td class="w-25 text-dark fw-bolder fs-4">
+                                        <div>0</div>
+                                        <div>Drop out</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-5 bg-white mb-5 ms-4 mt-5 border text-dark">
+                        <img th:src="@{/assets/images/faces/1.jpg}" class="rounded-circle" style="margin: -50px 0px 0px 42%"
+                             width="100" height="100">
+                        <div th:text="${class.trainer.name}" class="text-center display-6"></div>
+                        <!-- Nav pills -->
+                        <ul class="nav nav-pills text-center" role="tablist">
+                            <li class="nav-item w-25">
+                                <a class="nav-link active" data-toggle="pill" data-bs-toggle="tab" href="#account">Account</a>
+                            </li>
+                            <li class="nav-item w-25">
+                                <a class="nav-link" data-toggle="pill" data-bs-toggle="tab" href="#phone">Phone</a>
+                            </li>
+                            <li class="nav-item w-25">
+                                <a class="nav-link" data-toggle="pill" data-bs-toggle="tab" href="#email">Email</a>
+                            </li>
+                            <li class="nav-item w-25">
+                                <a class="nav-link" data-toggle="pill" data-bs-toggle="tab" href="#skill">Skill</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content text-center">
+                            <div id="account" class="container tab-pane active"><br>
+                                <h2 th:text="${class.trainer.account}"></h2>
+                            </div>
+                            <div id="phone" class="container tab-pane fade"><br>
+                                <h2 th:text="${class.trainer.phone}"></h2>
+                            </div>
+                            <div id="email" class="container tab-pane fade"><br>
+                                <h2 th:text="${class.trainer.email}"></h2>
+                            </div>
+                            <div id="skill" class="container tab-pane fade"><br>
+                                <h2>Java</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Trainee list -->
+                    <div class="col-sm-2 mb-2 row ps-5">
+                        <a th:href="@{/trainee/form/{classID}(classID=${class.id})}" class="btn btn-outline-success">Add Trainee</a>
+                    </div>
+                    <div class="row ps-5" id="paginate">
+                        <div class="col-sm-5 m-2 bg-light-success border rounded p-2" th:each="trainee : ${class.trainees}">
+                            <div class="d-flex flex-row bg-white border rounded p-3">
+                                <div>
+                                    <img th:src="@{/assets/images/faces/1.jpg}" class="rounded-circle" width="100"
+                                         height="100">
+                                    <div class="text-warning">
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-5">
+                                    <div><i class="fas fa-user"></i> <a th:text="${trainee.name}"
+                                                                        th:href="@{'/trainee/'+${trainee.id}}"></a></div>
+                                    <div><i class="fas fa-info-circle"></i> Account: <span
+                                            th:text="${trainee.account}"></span></div>
+                                    <div><i class="fas fa-graduation-cap"></i> Rank: A+</a></div>
+                                    <div><i class="fas fa-envelope"></i> Email: <span class="text-primary"
+                                                                                      th:text="${trainee.email}"></span>
+                                    </div>
+                                    <div><i class="fas fa-university"></i> University: <span
+                                            th:text="${trainee.university}"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script th:src="@{/js/jquery.paginate.js}"></script>
+<script th:src="@{/js/view-class-detail.js}"></script>
+</html>

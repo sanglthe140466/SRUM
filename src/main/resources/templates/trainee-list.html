@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layout/main :: layout ('Trainee List', ~{::section}, 'trainee', ~{::link}, ~{::script})"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/assets/vendors/simple-datatables/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/toastify/toastify.css}">
+</head>
+<body>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card border">
+                    <div class="card-body">
+                        <div class="mt-4 mb-2 table-responsive">
+                            <table class="table text-center text-dark table-hover" id="trainee-table">
+                                <thead>
+                                <tr>
+                                    <th class="text-center" scope="col">NO</th>
+                                    <th class="text-center" scope="col">NAME</th>
+                                    <th class="text-center" scope="col">BRANCH</th>
+                                    <th class="text-center" scope="col">FACULTY</th>
+                                    <th class="text-center" scope="col">PARENT</th>
+                                    <th class="text-center" scope="col">INTERVIEW DATE</th>
+                                    <th class="text-center" scope="col">INTERVIEW STATUS</th>
+                                    <th class="text-center" scope="col">UNIVERSITY</th>
+                                    <th class="text-center" scope="col">CLASS</th>
+                                    <th class="text-center" scope="col">ACTION</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center fw-bold text-black">
+                                <tr th:each="trainee,state:${traineeList}">
+                                    <td th:utext="${state.count}"></td>
+                                    <td>
+                                        <a th:href="@{'/trainee/'+${trainee.id}}"
+                                           th:utext="${trainee.name}">
+                                        </a>
+                                    </td>
+                                    <td th:utext="${trainee.branch}"></td>
+                                    <td th:utext="${trainee.faculty}"></td>
+                                    <td th:utext="${trainee.parentDepartment}"></td>
+                                    <td th:utext="*{#dates.format(trainee.recInterviewDate, 'dd-MM-yyyy')}"></td>
+                                    <td class="text-center">
+                                    <span class="badge bg-success" th:if="${trainee.status == 'ACTIVE'}"
+                                          th:text="ACTIVE"></span>
+                                        <span class="badge bg-danger" th:if="${trainee.status == 'DISABLE'}"
+                                              th:text="DISABLE"></span>
+                                    </td>
+                                    <td th:utext="${trainee.university}"></td>
+                                    <td><a th:href="@{/class/{id}(id=${trainee.clazz.id})}"
+                                           th:utext="${trainee.clazz.name}"></a></td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm me-1" role="button" th:href="@{/trainee/update/{traineeID}(traineeID=${trainee.id})}"
+                                           title="edit"><i
+                                                class="fas fa-edit fa-1x "></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="success" th:hidden="${success != null}" th:if="${success != null}" th:text="${success}"></div>
+            <div id="error" th:hidden="${error != null}" th:if="${error != null}" th:text="${error}"></div>
+        </div>
+    </div>
+</section>
+<script th:src="@{/assets/vendors/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendors/toastify/toastify.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/trainee-manage.js}"></script>
+</body>
+</html>
+
+

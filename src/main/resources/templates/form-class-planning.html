@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/main :: layout ('Class Management', ~{::section}, 'class', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="page-content">
+                <!--Planning class form -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">Form Planning Class </h4>
+                    </div>
+                    <div class="text-center error" th:if="${error != null}" th:text="${error}"></div>
+                    <form id="form-class" th:action="@{/class/save}" method="post" th:object="${clazz}">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" th:value="${clazz.id}">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Class Name <span class="required">(*)</span></label>
+                                    <input th:readonly="${clazz.id != null}" type="text" class="form-control" name="name" id="name" th:field="*{name}">
+                                    <error th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></error>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="trainer" class="property">Head Teacher</label>
+                                    <select class="form-select" name="trainer" id="trainer" th:field="*{trainer.id}">
+                                        <option th:each="trainer : ${trainer}" th:value="${trainer.id}" th:text="${trainer.name}"></option>
+                                    </select>
+                                    <error th:if="${#fields.hasErrors('trainer.name')}" th:errors="*{trainer.name}"></error>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group  col-md-6">
+                                    <label>Open Date <span class="required">(*)</span></label>
+                                    <input type="date" class="form-control" name="openDate" id="openDate" th:field="*{openDate}"/>
+                                    <error th:if="${#fields.hasErrors('openDate')}" th:errors="*{openDate}"></error>
+                                </div>
+                                <div class="form-group  col-md-6">
+                                    <label>End Date <span class="required">(*)</span></label>
+                                    <input type="date" class="form-control" name="endDate" id="endDate" th:field="*{endDate}"/>
+                                    <error th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></error>
+                                    <error th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></error>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Plan count <span class="required">(*)</span></label>
+                                    <input type="text" class="form-control" name="planCount" id="planCount" th:field="*{planCount}">
+                                    <error th:if="${#fields.hasErrors('planCount')}" th:errors="*{planCount}"></error>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="typeTrainee" class="property">Type trainee</label>
+                                    <select class="form-select" name="typeTrainee" id="typeTrainee" th:field="*{type}">
+                                        <option value="Fresher">Fresher</option>
+                                        <option value="Intern">Internships</option>
+                                    </select>
+                                    <error th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></error>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="status" class="property">Status</label>
+                                    <select class="form-select" name="status" id="status" th:field="*{status}">
+                                        <option value="0">Waiting</option>
+                                        <option value="1">Running</option>
+                                        <option value="2">Release</option>
+                                    </select>
+                                    <error th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></error>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>Note </label>
+                                    <textarea type="text" class="form-control" rows="5" name="note" id="note" th:field="*{note}"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary ml-1"
+                                        data-bs-dismiss="modal" onclick="return addFormValidate();">Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+<script th:src="@{/js/form-class-planning.js}"></script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layout/main :: layout ('Trainee Management', ~{::section}, 'trainee', ~{::link}, ~{::script})"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Trainee Form</h4>
+                </div>
+                <div class="text-center text-danger font-bold" th:if="${error != null}" th:text="${error}"></div>
+                <form class="form-control-sm" id="trainee-form" method="post" th:action="@{/trainee/save}"
+                      th:object="${trainee}">
+                    <div>
+                        <input name="id" th:value="${trainee.id}" type="hidden">
+                        <input name="password" th:value="12345678" type="hidden">
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label>Type</label>
+                                            <select class="form-select" id="typeBox" name="type">
+                                                <th:block th:if="${trainee.type == 'Intern'}">
+                                                    <option selected value="Intern">INTERN</option>
+                                                    <option value="Fresher">FRESHER</option>
+                                                </th:block>
+                                                <th:block th:if="${trainee.type == 'Fresher'}">
+                                                    <option value="Intern">INTERN</option>
+                                                    <option selected value="Fresher">FRESHER</option>
+                                                </th:block>
+                                                <th:block th:if="${trainee.type == null}">
+                                                    <option value="Intern">INTERN</option>
+                                                    <option value="Fresher">FRESHER</option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Class</label>
+                                            <select class="form-select" id="clazz" name="clazz"
+                                                    th:field="*{clazz.id}"/>
+                                            <option th:each="class : ${classList}"
+                                                    th:selected="${class.id == classFind}"
+                                                    th:utext="${class.name}"
+                                                    th:value="${class.id}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Status</label>
+                                            <select class="form-select" id="status"
+                                                    name="status" th:field="*{status}" th:value="${trainee.status}">
+                                                <option value="ACTIVE">ACTIVE</option>
+                                                <option value="DISABLE">DISABLE</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Gender</label>
+                                            <select class="form-select" id="gender" name="gender"
+                                                    th:field="*{gender}"
+                                                    th:value="${trainee.gender}">
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Interview Result</label>
+                                            <select class="form-select" id="recInterviewStatus"
+                                                    name="recInterviewStatus"
+                                                    th:field="*{recInterviewStatus}"
+                                                    th:value="${trainee.recInterviewStatus}">
+                                                <option value="Pass">PASS</option>
+                                                <option value="Fail">FAILD</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Name<span class="text-danger">(*)</span></label>
+                                            <input class="form-control" id="name"
+                                                   minlength="5" name="name" required th:field="*{name}"
+                                                   th:value="${trainee.name}" type="text">
+                                            <error th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></error>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>Account<span class="text-danger">(*)</span></label>
+                                            <input class="form-control"
+                                                   id="account" minlength="5" name="account"
+                                                   required
+                                                   th:field="*{account}" th:value="${trainee.account}" type="text">
+                                            <error th:errors="*{account}"
+                                                   th:if="${#fields.hasErrors('account')}"></error>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>Email<span class="text-danger">(*)</span></label>
+                                            <input class="form-control" id="email"
+                                                   name="email" pattern=".+@gmail\.com" required th:field="*{email}"
+                                                   th:value="${trainee.email}" type="email">
+                                            <error th:errors="*{email}"
+                                                   th:if="${#fields.hasErrors('email')}"></error>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>University<span class="text-danger">(*)</span></label>
+                                            <input class="form-control"
+                                                   id="university" minlength="3"
+                                                   name="university"
+                                                   required th:field="*{university}" th:value="${trainee.university}"
+                                                   type="text">
+                                            <error th:errors="*{university}"
+                                                   th:if="${#fields.hasErrors('university')}"></error>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Branch<span class="text-danger">(*)</span></label>
+                                            <input class="form-control"
+                                                   id="branch" minlength="3" name="branch"
+                                                   required th:field="*{branch}" th:value="${trainee.branch}"
+                                                   type="text">
+                                            <error th:errors="*{branch}"
+                                                   th:if="${#fields.hasErrors('branch')}"></error>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Facebook</label>
+                                            <input class="form-control" id="facebook"
+                                                   name="facebook" th:field="*{facebook}" th:value="${trainee.facebook}"
+                                                   type="text">
+                                            <error th:errors="*{facebook}"
+                                                   th:if="${#fields.hasErrors('facebook')}"></error>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Phone<span class="text-danger">(*)</span></label>
+                                            <input class="form-control" id="phone"
+                                                   minlength="10"
+                                                   name="phone"
+                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                                   required th:field="*{phone}" th:value="${trainee.phone}"
+                                                   type="text">
+                                            <error th:errors="*{phone}"
+                                                   th:if="${#fields.hasErrors('phone')}"></error>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Faculty<span class="text-danger">(*)</span></label>
+                                            <input class="form-control"
+                                                   id="faculty" minlength="3" name="faculty"
+                                                   required th:field="*{faculty}" th:value="${trainee.faculty}"
+                                                   type="text">
+                                            <error th:errors="*{faculty}"
+                                                   th:if="${#fields.hasErrors('faculty')}"></error>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Parent<span class="text-danger">(*)</span></label>
+                                            <input class="form-control"
+                                                   id="parentDepartment" minlength="3"
+                                                   name="parentDepartment" required th:field="*{parentDepartment}"
+                                                   th:value="${trainee.parentDepartment}" type="text">
+                                            <error th:errors="*{parentDepartment}"
+                                                   th:if="${#fields.hasErrors('parentDepartment')}"></error>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Interview Date<span class="text-danger">(*)</span></label>
+                                            <input class="form-control" id="recInterviewDate"
+                                                   name="recInterviewDate" required
+                                                   th:field="*{recInterviewDate}" th:value="${trainee.recInterviewDate}"
+                                                   type="date">
+                                            <error th:errors="*{recInterviewDate}"
+                                                   th:if="${#fields.hasErrors('recInterviewDate')}"></error>
+                                        </div>
+                                    </div>
+                                <div class="fresher-box row">
+                                    <div class="col-md-4">
+                                        <label>Fulltime working<span class="text-danger">(*)</span></label>
+                                        <input class="form-control"
+                                               id="fullTimeWorkingAvailable" name="fullTimeWorkingAvailable"
+                                               required
+                                               th:field="*{fullTimeWorkingAvailable}"
+                                               th:value="${trainee.fullTimeWorkingAvailable}" type="date">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Gruadate Date<span class="text-danger">(*)</span></label>
+                                        <input class="form-control"
+                                               id="universityGraduationDate" name="universityGraduationDate"
+                                               required
+                                               th:field="*{universityGraduationDate}"
+                                               th:value="${trainee.universityGraduationDate}" type="date">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success btn-sm" th:if="${trainee.id == null}" type="submit">SAVE
+                            </button>
+                            <button class="btn btn-danger btn-sm" th:action="@{/trainee/save/{id}(id=${trainee.id})}"
+                                    th:if="${trainee.id}" type="submit">UPDATE
+                            </button>
+                            <button class="btn btn-warning btn-sm" type="reset">RESET</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script th:src="@{/js/form-trainee-manage.js}"></script>
+</html>

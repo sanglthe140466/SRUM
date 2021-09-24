@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/main :: layout ('', ~{::section}, '', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+</head>
+<body>
+<section class="section">
+  <div class="row">
+    <div class="col">
+      <div id="error">
+        <div class="error-page container">
+          <div class="col-md-8 col-12 offset-md-2">
+            <div class="text-center">
+              <h1 class="error-title">BAD REQUEST</h1>
+              <h1>400</h1>
+              <p>Those coordinates are no longer valid</p>
+              <a th:href="@{/}" class="btn btn-lg btn-outline-primary mt-3">Go Home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

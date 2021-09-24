@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="table-responsive mt-2">
+    <table class="table text-center text-dark table-hover" id="class-table">
+        <thead>
+        <tr>
+            <th>NO</th>
+            <th>DATE</th>
+            <th>STATUS</th>
+            <th>NOTE</th>
+        </tr>
+        </thead>
+        <tbody class="text-center fw-bold text-black">
+        <tr th:each="attendance,state : ${attendanceList}">
+            <td th:text="${state.count}"></td>
+            <td th:text="${#dates.format( attendance.date, 'MM-dd-yyyy')}"></td>
+            <td th:text="${attendance.type}"></td>
+            <td th:text="${attendance.note}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

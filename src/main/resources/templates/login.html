@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/pages/auth.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+<div id="auth">
+    <div class="row h-100">
+        <div class="col-lg-5 col-12">
+            <div id="auth-left">
+                <div class="auth-logo">
+                    <h1>SRUM</h1>
+                </div>
+                <h1 class="auth-title">Login</h1>
+                <div th:if="${#request.getParameter('error') == 'true'}">
+                    <div class="alert alert-danger"
+                         th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+                         th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
+                    </div>
+                </div>
+                <form th:action="@{/login}" method="POST">
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" th:name="username" placeholder="Account"
+                               required>
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" class="form-control form-control-xl" th:name="password"
+                               placeholder="Password" required>
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                    </div>
+                    <div class="form-check form-check-lg d-flex align-items-end">
+                        <input class="form-check-input me-2" type="checkbox" name="remember-me" id="rememberMe">
+                        <label class="form-check-label text-gray-600" for="rememberMe">
+                            Keep me logged in
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Login</button>
+                </form>
+                <div class="text-center mt-5 text-lg fs-4">
+                    <p><a class="font-bold" th:href="@{/password/reset}">Forgot password?</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 d-none d-lg-block">
+            <div id="auth-right">
+                <img id="background"
+                     src="https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                     alt="Login background">
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/vendors/jquery/jquery.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+<script th:src="@{/js/login.js}"></script>
+</body>
+
+</html>

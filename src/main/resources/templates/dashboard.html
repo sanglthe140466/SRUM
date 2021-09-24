@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/main :: layout ('Dashboard', ~{::section}, 'dashboard', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<section class="section">
+    <form class="row" id="selectDate" method="post">
+        <div class="col-sm">
+            <div class="form-group">
+                <input type="date" class="form-control round" id="startDate" name="startDate">
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="form-group">
+                <input type="date" class="form-control round" id="endDate" name="endDate">
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-outline-info">Show Report</button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col">
+            <h4>Fresher statistic</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Class
+                </div>
+                <div class="card-body">
+                    <div id="chartFresherClass"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Trainee
+                </div>
+                <div class="card-body">
+                    <div id="chartFresherTrainee"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4>Internship statistic</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Class
+                </div>
+                <div class="card-body">
+                    <div id="chartInternClass"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Trainee
+                </div>
+                <div class="card-body">
+                    <div id="chartInternTrainee"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--javascript-->
+<script th:src="@{/assets/vendors/apexcharts/apexcharts.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

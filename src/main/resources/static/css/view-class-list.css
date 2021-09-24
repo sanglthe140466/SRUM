@@ -1,0 +1,10 @@
+.message-success, .message-fail {
+    position: fixed;
+    padding: 25px 50px;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100000;
+}
+th a{
+    text-align: center;
+}

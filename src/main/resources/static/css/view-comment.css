@@ -1,0 +1,13 @@
+.cmt {
+    border: 1px solid rgba(0, 0, 0, .125);
+    height: 130px;
+    margin-top: 20px;
+}
+.rowcmt {
+    margin-top: 10px;
+}
+
+#add-comment {
+    margin-top: 10px;
+    margin-left: 88.0%;
+}

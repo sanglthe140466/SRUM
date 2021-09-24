@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:
+      th:replace="layout/main :: layout ('Class Management', ~{::section}, 'class', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/assets/vendors/simple-datatables/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendors/toastify/toastify.css}">
+    <link rel="stylesheet" th:href="@{/css/view-class-list.css}">
+</head>
+<body>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="page-content">
+                <section class="row">
+                    <div class="buttons">
+                        <a th:href="@{/class/add}" class="btn btn-outline-primary">Add Class Planning</a>
+                    </div>
+                </section>
+                <div class="card border">
+                    <div class="card-content">
+                        <div class="table-responsive">
+                            <table class="table text-center text-dark table-hover" id="class-table">
+                                <thead>
+                                <tr>
+                                    <th>NAME</th>
+                                    <th>PLAN COUNT</th>
+                                    <th>CURRENT COUNT</th>
+                                    <th>START DATE</th>
+                                    <th>END DATE</th>
+                                    <th>HEAD TEACHER</th>
+                                    <th>TYPE</th>
+                                    <th>STATUS</th>
+                                    <th>ACTION</th>
+                                    <th>ISSUES</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-center fw-bold text-black">
+                                <tr th:each="clazz : ${classes}">
+                                    <td><a th:href="@{/class/{id}(id=${clazz.id})}" th:text="${clazz.name}"></a></td>
+                                    <td th:text="${clazz.planCount}"></td>
+                                    <td th:text="${clazz.traineeCount}"></td>
+                                    <td th:text="${#dates.format( clazz.openDate, 'MM-dd-yyyy')}"></td>
+                                    <td th:text="${#dates.format( clazz.endDate, 'MM-dd-yyyy')}"></td>
+                                    <td th:text="${clazz.trainerName}"></td>
+                                    <td th:text="${clazz.type}"></td>
+                                    <td>
+                                        <span th:if="${clazz.status == 0}" class="badge bg-danger" th:text="Waiting"></span>
+                                        <span th:if="${clazz.status == 1}" class="badge bg-success" th:text="Running"></span>
+                                        <span th:if="${clazz.status == 2}" class="badge bg-info" th:text="Release"></span>
+                                    </td>
+                                    <td><a th:href="@{/class/update/{id}(id=${clazz.id})}" class="btn btn-outline-primary">Update</a></td>
+                                    <td><a th:href="@{/class/{id}/issues(id=${clazz.id})}" class="btn btn-outline-primary">Issues</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="success" th:hidden="${success != null}" th:if="${success != null}" th:text="${success}"></div>
+                <div id="error" th:hidden="${error != null}" th:if="${error != null}" th:text="${error}"></div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script th:src="@{/assets/vendors/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendors/toastify/toastify.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/view-class-list.js}"></script>
+</html>

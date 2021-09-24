@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:
+      th:replace="layout/main :: layout ('Feedback of trainee', ~{::section}, 'feedback', ~{::link}, ~{::script})"
+      lang="en">
+<head>
+</head>
+<body>
+<section class="section">
+    <div class="row">
+        <div class="col">
+            <div class="page-content">
+                <div class="card border">
+                    <div class="card-content">
+                        <div class="table-responsive">
+                            <table class="table table-hover text-black text-center" id="feedback-table">
+                                <thead>
+                                <tr>
+                                    <th width="10%">No</th>
+                                    <th>Name</th>
+                                    <th width="20%">Consult Date</th>
+                                    <th width="10%">Send Feedback</th>
+                                </tr>
+                                </thead>
+                                <tbody id="listFeedback" class="fw-bold">
+                                <tr th:each="feedback,state : ${feedbacks}">
+                                    <td th:text="${state.count}"></td>
+                                    <td th:text="${feedback.name}"></td>
+                                    <td th:text="${#dates.format( feedback.consultDate, 'MM-dd-yyyy')}"></td>
+                                    <td><a th:href="${feedback.content}" target="_blank" class="btn btn-outline-primary">Send <i class="far fa-paper-plane"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td th:if="${feedbacks.size() == 0}" colspan="4">No feedback!</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
