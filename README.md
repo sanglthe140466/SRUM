@@ -1,7 +1,6 @@
 # SRUM MANAGEMENT
 
 ---
-
 ## Introduction
 
 The SRU Management project was built and developed to help the CA in the SRU department manage fresher, internship and
