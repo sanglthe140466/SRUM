@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(scanBasePackaggit es = "com.srum")
+@SpringBootApplication(scanBasePackages = "com.srum")
 @EntityScan(basePackages = "com.srum.entity")
 @EnableJpaRepositories(basePackages = "com.srum.repository")
 @EnableTransactionManagement(proxyTargetClass = true)
